@@ -1,32 +1,38 @@
-{% set version = "0.2.1" %}
+{% set name = "m2r" %}
+{% set version = "0.3.1" %}
 
 package:
-  name: m2r
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/m/m2r/m2r-{{ version }}.tar.gz
-  sha256: bf90bad66cda1164b17e5ba4a037806d2443f2a4d5ddc9f6a5554a0322aaed99
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/m2r-{{ version }}.tar.gz
+  sha256: aafb67fc49cfb1d89e46a3443ac747e15f4bb42df20ed04f067ad9efbee256ab
 
 build:
-  number: 0
-  noarch: python
   entry_points:
     - m2r = m2r:main
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
 
 requirements:
   host:
-    - python
+    - python >=3.6
     - pip
   run:
-    - python
+    - python >=3.6
+    - mistune <2
     - docutils
-    - mistune
 
 test:
+  imports:
+    - m2r
   commands:
+    - pip check
     - m2r --help
+  requires:
+    - pip
 
 about:
   home: https://github.com/miyakogi/m2r

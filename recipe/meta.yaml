@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/m2r-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/m2r-{{ version }}.tar.gz
   sha256: aafb67fc49cfb1d89e46a3443ac747e15f4bb42df20ed04f067ad9efbee256ab
 
 build:
@@ -14,14 +14,14 @@ build:
     - m2r = m2r:main
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.6
+    - python {{ python_min }}
     - pip
   run:
-    - python >=3.6
+    - python >={{ python_min }}
     - mistune <2
     - docutils
 
@@ -33,6 +33,7 @@ test:
     - m2r --help
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/miyakogi/m2r
